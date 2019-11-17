@@ -1,5 +1,4 @@
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -11,3 +10,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.page-container{
+  width:90%;
+  margin-top: 40px;
+  margin-left: 2%;
+  margin-right: 2%;
+ 
+}
+
+.page-container-item{
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  flex-direction: row;  
+  margin: 1%;
+}
+
+.page-container-item-card{
+  margin-right: 3rem;
+  }
