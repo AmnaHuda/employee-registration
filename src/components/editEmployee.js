@@ -48,7 +48,7 @@ class EditEMployee extends Component {
         console.log("Employee after Update", employee)
 
         this.props.editEmployee(employee, employee_index);
-        this.props.history.push('/')
+        this.props.history.push('/dashboard')
     }
 
     render() { 

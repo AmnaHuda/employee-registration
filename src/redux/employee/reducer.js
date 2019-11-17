@@ -10,11 +10,13 @@ const employeeReducer = (state = [], action ) => {
             }
         case types.ADD_EMPLOYEE:
             {
-                return [...state, action.payload]
+                let newState = Object.assign([],state);
+                newState.splice(0,0,action.payload)
+                return newState
+
             }
         case types.UPDATE_EMPLOYEE:
             {
-                console.log(action.payload.employee)
                 let newState = Object.assign([], state);
                  newState[action.payload.index] = action.payload.employee
                  return newState

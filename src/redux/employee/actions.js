@@ -15,7 +15,6 @@ export const listEmployees = () => {
 export const addNewEmployee = (employee) =>{
     return(dispatch) => {
         axios.post(process.env.REACT_APP_BASE_URL, employee).then((res)=>{
-            console.log(res.data.doc)
             dispatch({type:types.ADD_EMPLOYEE, payload: res.data.doc})
         }).catch((err)=>{
             console.log("Error adding employee", err)

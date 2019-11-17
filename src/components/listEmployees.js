@@ -5,7 +5,13 @@ import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom';
 import {deleteEmployee,listEmployees} from '../redux/employee/actions'
 
+
 class ListEmployees extends Component {
+
+    componentDidMount(){
+        this.props.listEmployees();
+      }
+    
   
     constructor(props){
 
@@ -20,17 +26,16 @@ class ListEmployees extends Component {
         return (
             
             <div>
-                 <Row>
+                {this.props.user ?  <div><Row>
                 <NavLink className="btn btn-primary mt-3 mr-3 ml-3" to='/add-employee'>Add New Employee</NavLink>
                  <form class="form-inline my-2 my-lg-0 pt-3" >
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" onChange={(e)=>{this.setState({searchStr:e.target.value})}}/>
                     </form>
                 </Row>
-                
-                 
+                          
                     <Row className="mt-5">
                         {this.props.employees.map((item, index)=>{
-                            if(item.name.includes(this.state.searchStr))
+                            if(item.name.toLowerCase().includes(this.state.searchStr.toLowerCase()) || item.name.toUpperCase().includes(this.state.searchStr.toUpperCase()))
                             {
                                 return (
                                     <Col xs="3" key={index}>
@@ -56,7 +61,8 @@ class ListEmployees extends Component {
                             }
                        
                         })}
-                    </Row>
+                    </Row></div> :  null}
+                
             </div>
 
         );
@@ -64,7 +70,10 @@ class ListEmployees extends Component {
 }
  
 const mapStateToProps = (state) => (
-        {employees: state.employees}
+        {
+            employees: state.employees, 
+            user: state.user
+    }
 )
   
 const mapDispatchToProps = {

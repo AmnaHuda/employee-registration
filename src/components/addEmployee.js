@@ -15,51 +15,92 @@ class AddEmployee extends Component {
             dateOfJoining: "",
             salary: "",
             jobResponsibilities: "",
-            isManager: false
+            isManager: false, 
+            employeeError: {
+                nameErr: "",
+                designationErr: "",
+            }
         }
+    }
+
+    validateEmployee = () =>{
+        var nameErr = "";
+        var designationErr = "";
+
+        if(this.state.name === "")
+        nameErr = "Please Enter Name"
+       
+        if(this.state.designation === "")
+        designationErr = "Please Enter Designation"
+
+        this.setState({
+            employeeError: {
+                nameErr: nameErr,
+                designationErr: designationErr
+            }
+        })
+
+        if(nameErr !== "" && designationErr !== "")
+        {
+            return false;
+        }
+           
+        else
+        return true;
     }
 
     addEmployeeHandler = (e) => {
         e.preventDefault();
-        var responsibilities = [];
-        responsibilities = this.state.jobResponsibilities.split(',');
-       
-        const employee = {
-            name: this.state.name,
-            designation:  this.state.designation,
-            dateOfJoining:  this.state.dateOfJoining,
-            salary:  this.state.salary,
-            jobResponsibilities:  responsibilities,
-            isManager:  this.state.isManager
+        if(this.validateEmployee())
+        {
+            var responsibilities = [];
+            responsibilities = this.state.jobResponsibilities.split(',');
+           
+            const employee = {
+                name: this.state.name,
+                designation:  this.state.designation,
+                dateOfJoining:  this.state.dateOfJoining,
+                salary:  this.state.salary,
+                jobResponsibilities:  responsibilities,
+                isManager:  this.state.isManager
+            }
+            this.props.addNewEmployee(employee)
+            this.props.history.push('/dashboard')
         }
-        this.props.addNewEmployee(employee)
-        this.props.history.push('/')
+
+       
     }
 
     render() { 
+   
+      
+          
 
         return (
+       
             <div>
               <Form onSubmit={this.addEmployeeHandler} className="col-md-8 offset-md-2 mt-4 mb-4">
               <h4> ADD NEW EMPLOYEE</h4>
                     <Form.Group controlId="name">
                         <Form.Label>Full Name</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Full Name" required value={this.state.name} onChange={(e)=>{ this.setState({name: e.target.value})}}/>
+                        <Form.Control type="text" style={this.state.employeeError.nameErr !=="" ? {borderColor:"red"}: null} placeholder="Enter Full Name"  value={this.state.name} onChange={(e)=>{ this.setState({name: e.target.value})}}/>
+                    <span className="text-danger">{this.state.employeeError.nameErr}</span>
                     </Form.Group>
 
                     <Form.Group controlId="designation">
                         <Form.Label>Designation</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Designation" required value= {this.state.designation} onChange={(e)=>{this.setState({designation: e.target.value})}}/>
+                        <Form.Control type="text" style={this.state.employeeError.nameErr !=="" ? {borderColor:"red"}: null} placeholder="Enter Designation"  value= {this.state.designation} onChange={(e)=>{this.setState({designation: e.target.value})}}/>
+                        <span className="text-danger">{this.state.employeeError.designationErr}</span>
                     </Form.Group>
 
                     <Form.Label>Date of Joining</Form.Label>
                     <Form.Group controlId="designation">
-                        <DatePicker  dateFormat="MMMM d, yyyy" selected={this.state.dateOfJoining} required onChange={(date)=>{this.setState({dateOfJoining: new Date(date)})}} />
+                        <DatePicker  dateFormat="MMMM d, yyyy" selected={this.state.dateOfJoining}  onChange={(date)=>{this.setState({dateOfJoining: new Date(date)})}} />
                     </Form.Group>
                     
                         <Form.Group controlId="salary" >
                             <Form.Label>Salary</Form.Label>
-                            <Form.Control type="text" placeholder="Enter Salary" value={this.state.salary}  required onChange={(e)=>{this.setState({salary: e.target.value})}} />
+                            <Form.Control type="text" placeholder="Enter Salary" value={this.state.salary}   onChange={(e)=>{this.setState({salary: e.target.value})}} />
                             <Form.Text className="text-muted">
                             We'll never share your email with anyone else.
                             </Form.Text>
@@ -67,11 +108,11 @@ class AddEmployee extends Component {
 
                     <Form.Group controlId="responsibilities">
                         <Form.Label>Responsibilities</Form.Label>
-                        <Form.Control as="textarea" rows="3" value={this.state.jobResponsibilities} required onChange={(e)=>{this.setState({jobResponsibilities: e.target.value})}}/>
+                        <Form.Control as="textarea" rows="3" value={this.state.jobResponsibilities}  onChange={(e)=>{this.setState({jobResponsibilities: e.target.value})}}/>
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Check id="isManager" type="checkbox" label="is Manager" required value={this.state.isManager} onChange={(e)=>{this.setState({isManager: e.target.checked})}}/>
+                        <Form.Check id="isManager" type="checkbox" label="is Manager"  value={this.state.isManager} onChange={(e)=>{this.setState({isManager: e.target.checked})}}/>
                     </Form.Group>
 
                     <Button variant="primary" type="submit" >
